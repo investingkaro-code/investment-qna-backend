@@ -1,22 +1,21 @@
-# Use OpenJDK 17
+# Use Java 17 for Spring Boot
 FROM openjdk:17-jdk-slim
 
-# Set working directory
+# Set working dir
 WORKDIR /app
 
-# Copy Maven wrapper & pom.xml
-COPY mvnw* pom.xml ./
+# Copy Maven wrapper & pom.xml first (for caching)
+COPY mvnw .
 COPY .mvn .mvn
+COPY pom.xml .
 
-# Download dependencies
-RUN ./mvnw dependency:go-offline -B
+# Make sure wrapper is executable
+RUN chmod +x ./mvnw
 
-# Copy source code
+# Build application
 COPY src src
-
-# Build app
 RUN ./mvnw clean package -DskipTests
 
-# Run the app
-CMD ["java", "-jar", "target/investment_qna-0.0.1-SNAPSHOT.jar"]
+# Run the jar (finds the jar dynamically)
+CMD ["sh", "-c", "java -jar target/*.jar"]
 

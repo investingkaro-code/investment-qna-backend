@@ -22,7 +22,7 @@ public class SubCategory {
     private Category category;
 
     @OneToMany(mappedBy = "subCategory", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference("subcategory-questions")
     private List<Question> questions;
 
     // Getters and Setters

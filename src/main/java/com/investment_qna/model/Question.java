@@ -25,12 +25,12 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference("category-questions")
     private Category category;
     
     @ManyToOne
     @JoinColumn(name = "subcategory_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference("subcategory-questions")
     private SubCategory subCategory;
 
 

@@ -2,6 +2,8 @@ package com.investment_qna.model;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +25,14 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
+    @JsonBackReference
     private Category category;
+    
+    @ManyToOne
+    @JoinColumn(name = "subcategory_id", nullable = false)
+    @JsonBackReference
+    private SubCategory subCategory;
+
 
 
     private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
@@ -60,6 +69,15 @@ public class Question {
 		this.createdAt = createdAt;
 	}
 
+	public SubCategory getSubCategory() {
+		return subCategory;
+	}
+
+	public void setSubCategory(SubCategory subCategory) {
+		this.subCategory = subCategory;
+	}
+
+	
     // getters and setters
     
 }

@@ -9,4 +9,9 @@ import com.investment_qna.model.Answer;
 
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
     List<Answer> findByUserId(Long userId);
+    List<Answer> findByUserIdAndQuestionCategoryId(Long userId, Long categoryId);
+
+    // Answers by user + subcategory
+    List<Answer> findByUserIdAndQuestionSubCategoryId(Long userId, Long subCategoryId);
+
 }

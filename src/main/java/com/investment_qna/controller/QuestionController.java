@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.investment_qna.DTO.QuestionDTO;
 import com.investment_qna.model.Category;
 import com.investment_qna.model.Question;
+import com.investment_qna.model.SubCategory;
 import com.investment_qna.repository.CategoryRepository;
 import com.investment_qna.repository.QuestionRepository;
+import com.investment_qna.repository.SubCategoryRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,6 +34,9 @@ public class QuestionController {
     
     @Autowired
     private CategoryRepository categoryRepository;
+    
+    @Autowired
+    private SubCategoryRepository subCategoryRepository;
 
     // Get all questions
     @GetMapping
@@ -39,6 +44,45 @@ public class QuestionController {
     public List<Question> getAllQuestions() {
         return questionRepository.findAll();
     }
+    
+    @GetMapping("/by-subcategory/{subCategoryId}")
+    @Operation(summary = "Get questions by subcategory", description = "Retrieve all questions under a specific subcategory")
+    public List<QuestionDTO> getQuestionsBySubCategory(@PathVariable Long subCategoryId) {
+        
+        List<Question> questions = questionRepository.findBySubCategoryId(subCategoryId);
+
+        // Map to DTO to avoid infinite recursion
+        return questions.stream().map(q -> {
+            QuestionDTO dto = new QuestionDTO();
+            dto.setId(q.getId());
+            dto.setQuestionText(q.getQuestionText());
+            dto.setCategoryId(q.getCategory().getId());
+            dto.setCategoryName(q.getCategory().getName());
+            dto.setSubCategoryId(q.getSubCategory().getId());
+            dto.setSubCategoryName(q.getSubCategory().getName());
+            return dto;
+        }).toList();
+    }
+
+    @GetMapping("/by-category/{categoryId}")
+    @Operation(summary = "Get questions by subcategory", description = "Retrieve all questions under a specific subcategory")
+    public List<QuestionDTO> getQuestionsByCategory(@PathVariable Long categoryId) {
+        
+        List<Question> questions = questionRepository.findByCategoryId(categoryId);
+
+        // Map to DTO to avoid infinite recursion
+        return questions.stream().map(q -> {
+            QuestionDTO dto = new QuestionDTO();
+            dto.setId(q.getId());
+            dto.setQuestionText(q.getQuestionText());
+            dto.setCategoryId(q.getCategory().getId());
+            dto.setCategoryName(q.getCategory().getName());
+            dto.setSubCategoryId(q.getSubCategory().getId());
+            dto.setSubCategoryName(q.getSubCategory().getName());
+            return dto;
+        }).toList();
+    }
+
 
     // Get single question by ID
     @GetMapping("/{id}")
@@ -50,17 +94,22 @@ public class QuestionController {
     }
 
     @PostMapping
-    @Operation(summary = "Create question", description = "Add a new question to a category")
+    @Operation(summary = "Create question", description = "Add a new question under category and subcategory")
     public Question createQuestion(@RequestBody QuestionDTO dto) {
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found"));
 
+        SubCategory subCategory = subCategoryRepository.findById(dto.getSubCategoryId())
+                .orElseThrow(() -> new RuntimeException("SubCategory not found"));
+
         Question question = new Question();
         question.setQuestionText(dto.getQuestionText());
         question.setCategory(category);
+        question.setSubCategory(subCategory);
 
         return questionRepository.save(question);
     }
+
 
 
     // Update question

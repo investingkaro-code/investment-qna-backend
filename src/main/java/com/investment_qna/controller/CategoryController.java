@@ -53,14 +53,14 @@ public class CategoryController {
             dto.setName(cat.getName());
             dto.setDescription(cat.getDescription());
 
-            List<QuestionDTO> questions = cat.getQuestions().stream().map(q -> {
-                QuestionDTO qdto = new QuestionDTO();
-                qdto.setId(q.getId());
-                qdto.setQuestionText(q.getQuestionText());
-                return qdto;
-            }).toList();
+//            List<QuestionDTO> questions = cat.getQuestions().stream().map(q -> {
+//                QuestionDTO qdto = new QuestionDTO();
+//                qdto.setId(q.getId());
+//                qdto.setQuestionText(q.getQuestionText());
+//                return qdto;
+//            }).toList();
 
-            dto.setQuestions(questions);
+//            dto.setQuestions(questions);
             return dto;
         }).toList();
     }

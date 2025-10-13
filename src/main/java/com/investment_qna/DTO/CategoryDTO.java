@@ -6,7 +6,7 @@ public class CategoryDTO {
     private Long id;
     private String name;
     private String description;
-    private List<QuestionDTO> questions;
+//    private List<QuestionDTO> questions;
 
     // getters & setters
     public Long getId() { return id; }
@@ -18,8 +18,8 @@ public class CategoryDTO {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public List<QuestionDTO> getQuestions() { return questions; }
-    public void setQuestions(List<QuestionDTO> questions) { this.questions = questions; }
+//    public List<QuestionDTO> getQuestions() { return questions; }
+//    public void setQuestions(List<QuestionDTO> questions) { this.questions = questions; }
 }
 
 

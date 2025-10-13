@@ -71,5 +71,26 @@ public class AnswerController {
             .map(answer -> new AnswerDTO(answer))
             .collect(Collectors.toList());
     }
+    
+ // ✅ Get answers by Category
+    @GetMapping("/by-category")
+    @Operation(summary = "Get user answers by category", description = "Fetch answers submitted by a user for a specific category")
+    public List<AnswerDTO> getAnswersByCategory(@RequestParam Long userId, @RequestParam Long categoryId) {
+        return answerRepository.findByUserIdAndQuestionCategoryId(userId, categoryId)
+                .stream()
+                .map(answer -> new AnswerDTO(answer))
+                .collect(Collectors.toList());
+    }
+
+    // ✅ Get answers by SubCategory
+    @GetMapping("/by-subcategory")
+    @Operation(summary = "Get user answers by subcategory", description = "Fetch answers submitted by a user for a specific subcategory")
+    public List<AnswerDTO> getAnswersBySubCategory(@RequestParam Long userId, @RequestParam Long subCategoryId) {
+        return answerRepository.findByUserIdAndQuestionSubCategoryId(userId, subCategoryId)
+                .stream()
+                .map(answer -> new AnswerDTO(answer))
+                .collect(Collectors.toList());
+    }
+
 
 }

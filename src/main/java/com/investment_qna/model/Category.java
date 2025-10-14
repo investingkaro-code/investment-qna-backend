@@ -2,6 +2,7 @@ package com.investment_qna.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -28,6 +29,7 @@ public class Category {
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     @JsonManagedReference("category-questions")
+    @JsonIgnore
     private List<Question> questions;
 
     // Getters & Setters

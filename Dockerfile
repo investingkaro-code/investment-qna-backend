@@ -1,5 +1,5 @@
 # Use Java 17 for Spring Boot
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-jammy
 
 # Set working dir
 WORKDIR /app

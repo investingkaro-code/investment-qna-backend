@@ -32,7 +32,9 @@ public class SecurityConfig {
             		"/v3/api-docs/**",
                     "/swagger-ui/**",
                     "/swagger-ui.html",
-                    "/actuator/**"
+                    "/actuator/**",
+                    "https://investment-qna-frontend.vercel.app",
+                    "https://investment-qna-backend-uca6.vercel.app"
                     ).permitAll()
             .anyRequest().authenticated()
             .and()

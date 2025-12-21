@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.investment_qna.DTO.AnswerDTO;
+import com.investment_qna.DTO.BulkAnswerRequestDTO;
 import com.investment_qna.model.Answer;
 import com.investment_qna.model.Question;
 import com.investment_qna.model.User;
@@ -91,6 +92,23 @@ public class AnswerController {
                 .map(answer -> new AnswerDTO(answer))
                 .collect(Collectors.toList());
     }
+    
+    @PostMapping("/bulk")
+    @Operation(
+        summary = "Submit bulk answers",
+        description = "Save multiple answers for a stock in one request"
+    )
+    public void submitBulkAnswers(
+            @RequestBody BulkAnswerRequestDTO request,
+            Principal principal
+    ) {
+        // Fetch user from Principal
+        User user = userRepository.findByEmail(principal.getName())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+        answerService.saveBulkAnswers(request, user);
+    }
+
 
 
 }

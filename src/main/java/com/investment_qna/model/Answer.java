@@ -28,8 +28,11 @@ public class Answer {
 
     @Column(columnDefinition = "TEXT")
     private String answerText;
+    
+    @Column(name = "stock_symbol", nullable = false)
+    private String stockSymbol;
 
-    private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+	private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
 
 	public Long getId() {
 		return id;
@@ -61,6 +64,14 @@ public class Answer {
 
 	public void setAnswerText(String answerText) {
 		this.answerText = answerText;
+	}
+	
+	public String getStockSymbol() {
+		return stockSymbol;
+	}
+
+	public void setStockSymbol(String stockSymbol) {
+		this.stockSymbol = stockSymbol;
 	}
 
 	public Timestamp getCreatedAt() {

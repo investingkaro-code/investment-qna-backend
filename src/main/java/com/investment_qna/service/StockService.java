@@ -20,8 +20,8 @@ public class StockService {
 
     private static final Logger logger = LoggerFactory.getLogger(StockService.class);
 
-    @Value("${alphavantage.api.key}")
-    private String apiKey;
+//    @Value("${alphavantage.api.key}")
+//    private String apiKey;
 
     private static final String BASE_URL =
             "https://archives.nseindia.com/content/equities/EQUITY_L.csv";

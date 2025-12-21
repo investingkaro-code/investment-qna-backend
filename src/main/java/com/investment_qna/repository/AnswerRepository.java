@@ -13,5 +13,18 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
     // Answers by user + subcategory
     List<Answer> findByUserIdAndQuestionSubCategoryId(Long userId, Long subCategoryId);
+    
+    List<Answer> findByUserIdAndStockSymbolAndQuestionCategoryId(
+            Long userId,
+            String stockSymbol,
+            Long categoryId
+        );
+
+        long countByUserIdAndStockSymbolAndQuestionCategoryId(
+            Long userId,
+            String stockSymbol,
+            Long categoryId
+        );
+
 
 }

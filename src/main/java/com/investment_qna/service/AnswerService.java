@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.investment_qna.DTO.AnswerDTO;
 import com.investment_qna.DTO.BulkAnswerRequestDTO;
+import com.investment_qna.DTO.ResumeAnswerDTO;
+import com.investment_qna.DTO.ResumeResponseDTO;
 import com.investment_qna.model.Answer;
 import com.investment_qna.model.Question;
 import com.investment_qna.model.User;
@@ -57,4 +59,35 @@ public class AnswerService {
 
         answerRepository.saveAll(answersToSave);
     }
+    
+    public ResumeResponseDTO getResumeAnswers(
+            Long userId,
+            String stockSymbol,
+            Long categoryId
+    ) {
+        List<Answer> answers =
+            answerRepository.findByUserIdAndStockSymbolAndQuestionCategoryId(
+                userId, stockSymbol, categoryId
+            );
+
+        long answeredCount = answers.size();
+
+        long totalQuestions =
+            questionRepository.countByCategoryId(categoryId);
+
+        List<ResumeAnswerDTO> answerDTOs = answers.stream()
+            .map(a -> new ResumeAnswerDTO(
+                a.getQuestion().getId(),
+                a.getAnswerText()
+            ))
+            .toList();
+
+        ResumeResponseDTO response = new ResumeResponseDTO();
+        response.setAnsweredCount(answeredCount);
+        response.setTotalQuestions(totalQuestions);
+        response.setAnswers(answerDTOs);
+
+        return response;
+    }
+
 }

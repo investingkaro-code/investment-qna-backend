@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.investment_qna.DTO.AnswerDTO;
 import com.investment_qna.DTO.BulkAnswerRequestDTO;
+import com.investment_qna.DTO.ResumeResponseDTO;
 import com.investment_qna.model.Answer;
 import com.investment_qna.model.Question;
 import com.investment_qna.model.User;
@@ -109,6 +110,21 @@ public class AnswerController {
         answerService.saveBulkAnswers(request, user);
     }
 
+    @GetMapping("/resume")
+    public ResumeResponseDTO resumeAnswers(
+            @RequestParam String stockSymbol,
+            @RequestParam Long categoryId,
+            Principal principal
+    ) {
+        User user = userRepository.findByEmail(principal.getName())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return answerService.getResumeAnswers(
+            user.getId(),
+            stockSymbol,
+            categoryId
+        );
+    }
 
 
 }

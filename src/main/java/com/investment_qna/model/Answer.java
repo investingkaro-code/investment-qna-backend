@@ -1,6 +1,7 @@
 package com.investment_qna.model;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,6 +34,9 @@ public class Answer {
     private String stockSymbol;
 
 	private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+	
+	@Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
 	public Long getId() {
 		return id;

@@ -7,12 +7,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.investment_qna.GoogleAuthService;
 import com.investment_qna.JwtUtil;
 import com.investment_qna.DTO.AuthResponse;
+import com.investment_qna.DTO.GoogleLoginRequest;
 import com.investment_qna.DTO.LoginRequest;
 import com.investment_qna.DTO.RegisterRequest;
 import com.investment_qna.model.User;
 import com.investment_qna.service.UserService;
+import com.nimbusds.jwt.JWTClaimsSet;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,5 +47,25 @@ public class AuthController {
         System.out.println("Token = " + token);
         return ResponseEntity.ok(new AuthResponse(user, token));
     }
+    
+    @Autowired
+    private GoogleAuthService googleAuthService;
+
+    @PostMapping("/google")
+    public ResponseEntity<AuthResponse> googleLogin(
+            @RequestBody GoogleLoginRequest request) throws Exception {
+
+        JWTClaimsSet claims = googleAuthService.verifyToken(request.getToken());
+
+        String email = claims.getStringClaim("email");
+        String name = claims.getStringClaim("name");
+
+        User user = userService.findOrCreateGoogleUser(email, name);
+
+        String jwt = jwtUtil.generateToken(user);
+        return ResponseEntity.ok(new AuthResponse(user, jwt));
+    }
+
+
 }
 

@@ -41,4 +41,16 @@ public class UserService {
 
         return user;
     }
+    
+    public User findOrCreateGoogleUser(String email, String name) {
+        return userRepository.findByEmail(email)
+            .orElseGet(() -> {
+                User user = new User();
+                user.setEmail(email);
+                user.setName(name);
+//                user.setProvider("GOOGLE"-);
+                return userRepository.save(user);
+            });
+    }
+
 }

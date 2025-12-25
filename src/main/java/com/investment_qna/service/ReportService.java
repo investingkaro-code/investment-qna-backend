@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.investment_qna.DTO.QuestionAnswerDTO;
 import com.investment_qna.DTO.StockReportDTO;
@@ -65,4 +66,11 @@ public class ReportService {
 
         return report;
     }
+    
+	@Transactional
+	public void deleteReport(Long userId, String stockSymbol) {
+		answerRepository.deleteByUserIdAndStockSymbol(userId, stockSymbol);
+	}
+
+
 }

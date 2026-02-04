@@ -77,8 +77,6 @@ public class Question {
 		this.subCategory = subCategory;
 	}
 
-	
-    // getters and setters
     
 }
 

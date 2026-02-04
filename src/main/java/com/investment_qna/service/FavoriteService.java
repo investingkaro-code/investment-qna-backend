@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.investment_qna.model.Favorite;
 import com.investment_qna.model.User;
@@ -53,12 +54,26 @@ public class FavoriteService {
 
     public List<Favorite> getFavorites() {
         User user = getCurrentUser();
-        return favoriteRepository.findAllByUser(user);
+        System.out.println("Fetching favorites for user ID: " + user.getId());
+        
+        List<Favorite> favorites = favoriteRepository.findAllByUserId(user.getId());
+        System.out.println("Found " + favorites.size() + " favorites.");
+        return favorites;
     }
 
+    @Transactional
     public void removeFavorite(String stockSymbol) {
-        User user = getCurrentUser();
-        favoriteRepository.deleteByUserAndStockSymbol(user, stockSymbol);
-    }
+    User user = getCurrentUser();
+
+    long deleted = favoriteRepository
+            .deleteByUserAndStockSymbol(user, stockSymbol);
+
+    System.out.println(
+        "Delete favorite → user=" + user.getId() +
+        ", symbol=" + stockSymbol +
+        ", deletedRows=" + deleted
+    );
+}
+
 }
 

@@ -48,8 +48,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
             "http://localhost:5173",
-            "https://investment-qna-frontend.vercel.app",
-            "https://investment-qna-backend-uca6.vercel.app/"
+            "https://inv-single-page-report.vercel.app/"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
